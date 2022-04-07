@@ -6,7 +6,7 @@ O desafio consiste na integração com a API de um SaaS utilizado por nossos cli
 
 1. Uma aplicação simples (console, API, worker, o que se sentir mais confortável) que será responsável pela integração com a API do nosso SaaS Mock para coletar os dados dos usuários cadastrados
 
-2. Um usuário deve conter ao menos
+2. Um usuário deve conter ao menos as seguintes informações:
 
 - ID
 - Nome
@@ -19,14 +19,16 @@ O desafio consiste na integração com a API de um SaaS utilizado por nossos cli
 
 4. Também temos a necessidade de mapear se o usuário é pagante ou não, porém a API que estamos integrando não possui informação direta para definir este campo, mas sabemos que ela retorna um campo de `role` e através deste conseguimos determinar o que precisamos. Devemos considerar a seguinte regra para este campo:
 
-`viewer` = não pagante
-`system` = não pagante
-`editor` = pagante
-`admin` = pagante
+| Role | Pagante |
+|:----:|:-------:|
+|viewer| não     |
+|system| não     |
+|editor| sim     |
+|admin | sim     |
 
-4.1 Além disso também devemos considerar que usuários inativos nunca são pagantes
+5. Também devemos considerar que usuários inativos nunca são pagantes
 
-5. Como o email pode ser uma informação pessoal de contato daquele usuário devemos afusca-lo de modo que só seja possível visualizar os primeiros e últimos 2 caracteres do alias e o domínio
+6. Como o email pode ser uma informação pessoal de contato daquele usuário devemos afusca-lo de modo que só seja possível visualizar os primeiros e últimos 2 caracteres do alias e o domínio
 
 ## Extra
 
@@ -36,8 +38,17 @@ O desafio consiste na integração com a API de um SaaS utilizado por nossos cli
 
 # Instalação
 
+Requisito é ter docker em sua máquina para rodar nossa API de mock:
+
+```
+docker-compose up
+```
+
 ## Mock API
+
+Com o serviço executando você poderá utilizar as seguintes API's:
 
 ### Users
 
-### Utilization
+Listagem de `users` registradas
+`GET http://0.0.0.0:8080/users`

@@ -85,7 +85,7 @@
             "name": "Bruce Wayne",
             "email": "bruce.wayne@niuco.com.br",
             "status": "inactive",
-            "role": "",
+            "role": "editor",
             "last_activity": 1586169478
         }
     ]

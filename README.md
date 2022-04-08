@@ -28,7 +28,9 @@ O desafio consiste na integração com a API de um SaaS utilizado por nossos cli
 
 5. Também devemos considerar que usuários inativos nunca são pagantes
 
-6. Como o email pode ser uma informação pessoal de contato daquele usuário devemos afusca-lo de modo que só seja possível visualizar os primeiros e últimos 2 caracteres do alias e o domínio
+6. Independente do formato devolvido pela API de Mock, devemos garantir sua conversão para ISO-8601 
+
+7. Como o email pode ser uma informação pessoal de contato daquele usuário devemos afusca-lo sempre que o dominio for diferente de `niuco.com.br` de modo que só seja possível visualizar os primeiros e últimos 2 caracteres do alias e o domínio
 
 ## Extra
 

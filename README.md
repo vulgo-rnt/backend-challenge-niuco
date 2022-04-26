@@ -1,10 +1,10 @@
 # Tech Challenge
 
-O desafio consiste na integração com a API de um SaaS utilizado por nossos clientes, precisamos extrair seus dados através de endpoints REST descritos nesse repositório, consolida-los em uma base única e exibi-los de forma consolidada.
+O desafio consiste na integração com a API de um SaaS utilizado por nossos clientes, precisamos extrair seus dados através de endpoints REST descritos nesse repositório e exibi-los de forma consolidada.
 
 ## Nós precisamos que você implemente
 
-1. Uma aplicação simples (console, API, worker, o que se sentir mais confortável) que será responsável pela integração com a API do nosso SaaS Mock para coletar os dados dos usuários cadastrados
+1. Uma aplicação simples (console, API, worker, o que se sentir mais confortável) que será responsável pela integração com a API do nosso SaaS Mock para coletar os dados dos usuários cadastrados, converte-los seguindo as regras abaixo e o resultado final.
 
 2. Um usuário deve conter ao menos as seguintes informações:
 
@@ -21,14 +21,14 @@ O desafio consiste na integração com a API de um SaaS utilizado por nossos cli
 
 | Role | Pagante |
 |:----:|:-------:|
-|viewer| não     |
-|system| não     |
-|editor| sim     |
-|admin | sim     |
+|viewer| `false` |
+|system| `false` |
+|editor| `true`  |
+|admin | `true`  |
 
 5. Também devemos considerar que usuários inativos nunca são pagantes
 
-6. Independente do formato devolvido pela API de Mock, devemos garantir sua conversão para ISO-8601 
+6. A data de última atividade devolvida na API está no formato Unix Epoch e durante nosso mapeamento devemos converte-la para o padrão ISO-8601 
 
 7. Como o email pode ser uma informação pessoal de contato daquele usuário devemos afusca-lo sempre que o dominio for diferente de `niuco.com.br` de modo que só seja possível visualizar os primeiros e últimos 2 caracteres do alias e o domínio
 

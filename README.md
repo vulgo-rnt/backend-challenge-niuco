@@ -40,17 +40,29 @@ O desafio consiste na integração com a API de um SaaS utilizado por nossos cli
 
 # Instalação
 
-Requisito é ter docker em sua máquina para rodar nossa API de mock:
+## Docker
+
+Caso possua docker em sua máquina, utilize o seguinte comando para rodar nossa API de mock:
 
 ```
 docker-compose up
 ```
 
-## Mock API
+## Pacote NPM
+
+Do contrário também é possível rodar a API de mock rodando o servidor da API de mock diretamente pela sua máquina:
+
+```
+npm install -g json-server
+cd config
+json-server --watch db.json
+```
+
+# Mock API
 
 Com o serviço executando você poderá utilizar as seguintes API's:
 
-### Users
+## Users
 
 Listagem de `users` registradas
 `GET http://0.0.0.0:8080/users`

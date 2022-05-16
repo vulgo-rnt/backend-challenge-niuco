@@ -30,7 +30,7 @@ O desafio consiste na integração com a API de um SaaS utilizado por nossos cli
 
 6. A data de última atividade devolvida na API está no formato Unix Epoch e durante nosso mapeamento devemos converte-la para o padrão ISO-8601 
 
-7. Como o email pode ser uma informação pessoal de contato daquele usuário devemos afusca-lo sempre que o dominio for diferente de `niuco.com.br` de modo que só seja possível visualizar os primeiros e últimos 2 caracteres do alias e o domínio
+7. Como o email pode ser uma informação pessoal de contato daquele usuário devemos ofusca-lo sempre que o dominio for diferente de `niuco.com.br` de modo que só seja possível visualizar os primeiros e últimos 2 caracteres do alias e o domínio
 
 ## Extra
 

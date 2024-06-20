@@ -1,68 +1,120 @@
 # Tech Challenge
 
-O desafio consiste na integração com a API de um SaaS utilizado por nossos clientes, precisamos extrair seus dados através de endpoints REST descritos nesse repositório e exibi-los de forma consolidada.
+O desafio consiste na integração com a API de um SaaS utilizado por nossos clientes. Precisamos extrair seus dados através de endpoints REST descritos neste repositório e exibi-los de forma consolidada.
 
 ## Nós precisamos que você implemente
 
-1. Uma aplicação simples (console, API, worker, o que se sentir mais confortável) que será responsável pela integração com a API do nosso SaaS Mock para coletar os dados dos usuários cadastrados, converte-los seguindo as regras abaixo e o resultado final.
+1. Uma aplicação simples (console, API, worker, o que se sentir mais confortável) que será responsável pela integração com a API do nosso SaaS Mock para coletar os dados dos usuários cadastrados, convertê-los seguindo as regras abaixo e exibir o resultado final.
 
 2. Um usuário deve conter ao menos as seguintes informações:
 
 - ID
 - Nome
-- Email
-- Data de última atividade
+- Email (ofuscado conforme regra abaixo)
+- Data de última atividade (em formato ISO-8601)
 - Flag para indicar se o usuário é pagante ou não
 - Flag para determinar se o usuário está ativo ou não
 
-3. A API que estamos integrando retorna a propriedade `status` com os possíveis valores: `enabled`, `disabled`. Sendo que o usuário apenas não está ativo quando o valor é igual a `disabled`
+3. A API que estamos integrando retorna a propriedade `status` com os possíveis valores: `enabled`, `disabled`. O usuário apenas não está ativo quando o valor é igual a `disabled`.
 
-4. Também temos a necessidade de mapear se o usuário é pagante ou não, porém a API que estamos integrando não possui informação direta para definir este campo, mas sabemos que ela retorna um campo de `role` e através deste conseguimos determinar o que precisamos. Devemos considerar a seguinte regra para este campo:
+4. Também temos a necessidade de mapear se o usuário é pagante ou não. A API que estamos integrando não possui informação direta para definir este campo, mas sabemos que ela retorna um campo `role` e através deste conseguimos determinar o que precisamos. Devemos considerar a seguinte regra para este campo:
 
-| Role | Pagante |
-|:----:|:-------:|
-|viewer| `false` |
-|system| `false` |
-|editor| `true`  |
-|admin | `true`  |
+| Role   | Pagante |
+|--------|---------|
+| viewer | `false` |
+| system | `false` |
+| editor | `true`  |
+| admin  | `true`  |
 
-5. Também devemos considerar que usuários inativos nunca são pagantes
+5. Usuários inativos nunca são pagantes. A verificação se o usuário está inativo (`status` igual a `disabled`) deve ser feita antes de qualquer outra lógica, incluindo a verificação do campo role. Portanto, mesmo que o role indique que um usuário poderia ser pagante, se ele estiver inativo, ele deve ser considerado não pagante.
 
-6. A data de última atividade devolvida na API está no formato Unix Epoch e durante nosso mapeamento devemos converte-la para o padrão ISO-8601 
+6. A data de última atividade devolvida na API está no formato Unix Epoch e deve ser convertida para o padrão ISO-8601, considerando o fuso horário UTC.
 
-7. Como o email pode ser uma informação pessoal de contato daquele usuário devemos ofusca-lo sempre que o dominio for diferente de `niuco.com.br` de modo que só seja possível visualizar os primeiros e últimos 2 caracteres do alias e o domínio
+7. O email deve ser ofuscado sempre que o domínio for diferente de `niuco.com.br`, de modo que só seja possível visualizar os primeiros e últimos 2 caracteres do alias e o domínio.
+
+### Exemplos de Ofuscação de Email:
+
+- **Email com domínio `niuco.com.br`:**
+  - Original: joao.silva@niuco.com.br
+  - Ofuscado: joao.silva@niuco.com.br
+
+- **Email com domínio diferente de `niuco.com.br`:**
+  - Original: maria.oliveira@gmail.com
+  - Ofuscado: ma********a@gmail.com
+
+  - Original: pedro.santos@yahoo.com
+  - Ofuscado: pe*******os@yahoo.com
+
+  - Original: claudia.rodrigues@outlook.com
+  - Ofuscado: cl********es@outlook.com
+
+  - Original: luiz.almeida@empresa.com
+  - Ofuscado: lu*****da@empresa.com
+
+### Detalhamento Adicional
+
+- Utilize variáveis de ambiente para configuração da URL da API mock.
+- Inclua tratamento de erros e logging apropriado.
+- Implemente testes unitários e de integração para validar sua solução.
+- Adicione documentação detalhada da aplicação, incluindo um README com instruções de instalação, execução, uso e decisões técnicas.
+- Demonstre como a aplicação pode ser escalada e mantida.
+- Configure um pipeline de CI/CD básico para rodar testes automaticamente.
 
 ## Extra
 
-- Você pode utilizar qualquer framework e biblioteca
-- É um diferencial ter ao menos a lógica principal seja testada
-- É um diferencial trabalhar com Typescript no dia a dia
+- Você pode utilizar qualquer framework e biblioteca.
+- É um diferencial trabalhar com Typescript no dia a dia.
 
-# Instalação
+## Instalação
 
-## Docker
+### Docker
 
-Caso possua docker em sua máquina, utilize o seguinte comando para rodar nossa API de mock:
+Caso possua Docker em sua máquina, utilize o seguinte comando para rodar nossa API de mock:
 
-```
+```bash
 docker-compose up
 ```
 
-## Pacote NPM
+### Pacote NPM
 
-Do contrário também é possível rodar a API de mock rodando o servidor da API de mock diretamente pela sua máquina:
+Se preferir, também é possível rodar a API de mock diretamente pela sua máquina:
 
-```
+```bash
 npm install -g json-server
 cd config
 json-server --watch db.json
 ```
 
-# Mock API
+## Mock API
 
-Com o serviço executando você poderá utilizar as seguintes API's:
+Com o serviço executando, você poderá utilizar as seguintes APIs:
 
-## Users
+### Users
 
-Listagem de `users` registradas
+Listagem de `users` registrados:
+
 `GET http://0.0.0.0:8080/users`
+
+### Exemplos de Payload
+
+#### Request
+
+```json
+GET http://0.0.0.0:8080/users
+```
+
+#### Response
+
+```json
+[
+  {
+    "id": "1",
+    "name": "John Doe",
+    "email": "john.doe@example.com",
+    "last_activity": 1622499200,
+    "role": "admin",
+    "status": "enabled"
+  },
+  ...
+]
+```
